@@ -30,6 +30,20 @@ public class MainInformationService {
     public MainInformation readById(Long id) {
         return mainInformationRepository.findById(id).orElseThrow();
     }
+    public void update(Long id,MainInformationDTO dto) {
+        MainInformation mainInformation = readById(id);
+        mainInformation.setStatus("proccesing");
+        mainInformation.setSurname(dto.getSurname());
+        mainInformation.setName(dto.getFirstName());
+        mainInformation.setPatronymic(dto.getPatronymic());
+        mainInformation.setQuantity(dto.getQuantity());
+        mainInformation.setDateOfCreated(dto.getDate());
+        mainInformation.setPhone(dto.getPhone());
+        mainInformation.setRoom(dto.getRoom());
+        mainInformation.setComments(dto.getComments());
+        mainInformationRepository.save(mainInformation);
+    }
+
 
     public MainInformation createApl(MainInformationDTO dto) {
         // Проверяем, что DTO не null

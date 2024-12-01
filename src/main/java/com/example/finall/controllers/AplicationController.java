@@ -41,4 +41,10 @@ public class AplicationController {
         System.out.println("Был отменен");
         return HttpStatus.OK;
     }
+    @PostMapping("application/update/{id}")
+    public HttpStatus update(@PathVariable Long id, @RequestBody MainInformationDTO dto){
+        System.out.println(id);
+        mainInformationService.update(id, dto);
+        return HttpStatus.OK;
+    }
 }
