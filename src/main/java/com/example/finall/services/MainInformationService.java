@@ -109,4 +109,9 @@ public class MainInformationService {
         mainInformation.setStatus("rejected");
         mainInformationRepository.save(mainInformation);
     }
+    public void close(Long id) {
+        MainInformation mainInformation = readById(id);
+        mainInformation.setStatus("close");
+        mainInformationRepository.save(mainInformation);
+    }
 }

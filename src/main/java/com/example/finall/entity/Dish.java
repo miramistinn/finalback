@@ -25,7 +25,5 @@ public class Dish {
     private String weight;
     @Column(name = "cost")
     private Double cost;
-    @Column(name = "quantity")
-    private int quantity;
 
 }

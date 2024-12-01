@@ -34,6 +34,12 @@ public class AplicationController {
         System.out.println(id);
         return new ResponseEntity<>(mainInformationService.readById(id), HttpStatus.OK);
     }
+    @PostMapping("application/close/{id}")
+    public HttpStatus close(@PathVariable Long id){
+        mainInformationService.close(id);
+        System.out.println("close the project");
+        return HttpStatus.OK;
+    }
 
     @PostMapping("application/reject")
     public HttpStatus rejectId(@RequestBody RejectedDTO dto){
