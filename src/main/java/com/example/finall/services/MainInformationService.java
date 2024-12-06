@@ -114,4 +114,8 @@ public class MainInformationService {
         mainInformation.setStatus("close");
         mainInformationRepository.save(mainInformation);
     }
+    public  void createDogovor(Long id){
+
+    }
+
 }

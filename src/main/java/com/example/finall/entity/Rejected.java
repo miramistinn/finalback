@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Rejected {
+public class    Rejected {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @OneToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "maininformation_id")
     private MainInformation mainInformation;
 
     @Column(name = "reason")

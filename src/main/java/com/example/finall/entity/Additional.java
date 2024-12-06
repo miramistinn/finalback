@@ -17,12 +17,12 @@ public class Additional {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "maininformation_id")
     private MainInformation mainInformation;
     @ManyToOne
     @JoinColumn(name = "additionalservice_id")
-    private AdditionalService additionalService;
+    private AdditionalServiceEntity additionalService;
     @Column(name = "cost")
     private Double cost;
 }
