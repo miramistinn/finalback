@@ -20,6 +20,7 @@ public class DogovorService {
     private final MainInformationService mainInformationService;
     private final MenuService menuService;
     private final AdditionalService additionalService;
+    private final CalculationService calculationService;
 
     public void create(Long id) {
         MainInformation mainInformation = mainInformationService.readById(id);
@@ -83,6 +84,9 @@ public class DogovorService {
                 replacePlaceholder(paragraph, "{{nday}}", String.valueOf(now.getDayOfMonth()));
                 replacePlaceholder(paragraph, "{{nmonth}}", String.valueOf(now.getMonth()));
                 replacePlaceholder(paragraph, "{{nyear}}", String.valueOf(now.getYear()));
+                replacePlaceholder(paragraph, "{{total}}", String.valueOf(calculationService.calcuate(id)));
+                replacePlaceholder(paragraph, "{{totalmenu}}", String.valueOf(calculationService.calcuateMenu(id)));
+                replacePlaceholder(paragraph, "{{totaldop}}", String.valueOf(calculationService.calcuateAditional(id)));
 
 
                 if (paragraph.getText().contains("{{cold}}") && !cold.isEmpty()) {

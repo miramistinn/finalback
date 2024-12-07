@@ -27,6 +27,18 @@ public class MainInformationService {
                 .filter(app -> app.getStatus().equals("new"))
                 .collect(Collectors.toList());
     }
+    public List<MainInformation> readAllProc() {
+        List<MainInformation> mainInformations = mainInformationRepository.findAll();
+        return mainInformations.stream()
+                .filter(app -> app.getStatus().equals("proccesing"))
+                .collect(Collectors.toList());
+    }
+    public List<MainInformation> readAllClosed() {
+        List<MainInformation> mainInformations = mainInformationRepository.findAll();
+        return mainInformations.stream()
+                .filter(app -> app.getStatus().equals("close"))
+                .collect(Collectors.toList());
+    }
     public MainInformation readById(Long id) {
         return mainInformationRepository.findById(id).orElseThrow();
     }
@@ -114,8 +126,10 @@ public class MainInformationService {
         mainInformation.setStatus("close");
         mainInformationRepository.save(mainInformation);
     }
-    public  void createDogovor(Long id){
-
+    public void startProc(Long id) {
+        MainInformation mainInformation = readById(id);
+        mainInformation.setStatus("proccesing");
+        mainInformationRepository.save(mainInformation);
     }
 
 }
