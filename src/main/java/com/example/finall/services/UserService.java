@@ -130,6 +130,13 @@ public class UserService {
             return null;
         else return adminRepository.findByEmail(dto.getEmail()).getId();
     }
+    public String checkRole() {
+        User user = User.getInstance();
+
+        if (adminRepository.findByEmail(user.getEmail()) != null)
+            return "admin";
+        else return "user";
+    }
 
     public List<Admin> readAllAdmin() {
         return adminRepository.findAll();

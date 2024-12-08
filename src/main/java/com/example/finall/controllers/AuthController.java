@@ -1,7 +1,9 @@
 package com.example.finall.controllers;
 
 import com.example.finall.dto.UserDTO;
+import com.example.finall.entity.MainInformation;
 import com.example.finall.entity.User;
+import com.example.finall.services.MainInformationService;
 import com.example.finall.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -18,6 +21,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class AuthController {
     private final UserService userService;
+    private final MainInformationService mainInformationService;
 
     @PostMapping("/log/create")
     public ResponseEntity<?> create(@RequestBody UserDTO dto) {
@@ -32,11 +36,43 @@ public class AuthController {
         }
 
     }
+    @PostMapping("/log/check")
+    public ResponseEntity<?> logCheck() {
+        try {
+            User user = User.getInstance();
+            System.out.println(user.getEmail());
+            System.out.println("logCheck");
 
+            if (user.getEmail() == null || user.getEmail().isEmpty()) {
+                return ResponseEntity.ok("no");
+            }
 
+            String role = userService.checkRole();
+            System.out.println(role);
+            if (Objects.equals(role, "admin")) {
+                return ResponseEntity.ok("admin");
+            } else if (userService.haveBuy(user.getEmail())) {
+                return ResponseEntity.ok("client have");
+            }
+            return ResponseEntity.ok("client");
 
-    @PostMapping("/log/logIn")
-    public ResponseEntity<?> logIn(@RequestBody UserDTO dto) {
+        } catch (Exception e) {
+            // Логирование ошибки
+            System.err.println("Ошибка при проверке логина: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ошибка сервера: " + e.getMessage());
+        }
+    }
+    @PostMapping("/log/auth")
+    public ResponseEntity<?> log(@RequestBody UserDTO dto) {
+        return getResponseEntity(dto);
+    }
+    @PostMapping("/log/readApp")
+    public ResponseEntity<List<MainInformation>> readApp() {
+        return new ResponseEntity<>(mainInformationService.readUserApp(), HttpStatus.OK);
+    }
+
+    private ResponseEntity<?> getResponseEntity(@RequestBody UserDTO dto) {
         if (userService.checkIfExistClient(dto) != null) {
             User user = User.getInstance();
             user.setEmail(dto.getEmail());
@@ -54,7 +90,13 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/logOut")
+
+    @PostMapping("/log/logIn")
+    public ResponseEntity<?> logIn(@RequestBody UserDTO dto) {
+        return getResponseEntity(dto);
+    }
+
+    @PostMapping("/log/logOut")
     public HttpStatus logOut() {
         System.out.println("пользователь вышел из аккаунта");
         User.getInstance().setEmail("");

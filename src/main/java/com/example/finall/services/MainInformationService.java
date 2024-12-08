@@ -55,7 +55,13 @@ public class MainInformationService {
         mainInformation.setComments(dto.getComments());
         mainInformationRepository.save(mainInformation);
     }
-
+public List<MainInformation> readUserApp(){
+        User user = User.getInstance();
+        if (user.getEmail()!=""){
+            return mainInformationRepository.readByClient_Email(user.getEmail());
+        }
+        else return null;
+}
 
     public MainInformation createApl(MainInformationDTO dto) {
         // Проверяем, что DTO не null
